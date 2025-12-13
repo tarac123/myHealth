@@ -2,6 +2,7 @@ import { AuthProvider } from "./hooks/useAuth";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 
+
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
@@ -10,14 +11,16 @@ import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
 import ProtectedRoute from "@/pages/ProtectedRoute";
 
-import FestivalsIndex from "@/pages/festivals/Index";
-import FestivalsShow from "@/pages/festivals/Show";
-import FestivalsCreate from "@/pages/festivals/Create";
-import FestivalsEdit from "@/pages/festivals/Edit";
+import DoctorsIndex from "@/pages/doctors/Index";
+import DoctorsShow from "@/pages/doctors/Show";
+import DoctorsCreate from "@/pages/doctors/Create";
+import DoctorsEdit from "@/pages/doctors/Edit";
 
-import FormExamples from "@/pages/examples/Forms";
-import DoctorsShow from "@/pages/examples/DoctorsShow";
-import DoctorsIndex from "@/pages/examples/DoctorsIndex";
+import PatientsIndex from "@/pages/patients/Index";
+import PatientsShow from "@/pages/patients/Show";
+import PatientsCreate from "@/pages/patients/Create";
+import PatientsEdit from "@/pages/patients/Edit";
+
 
 export default function App() {
   return (
@@ -39,34 +42,24 @@ export default function App() {
                 <div className="flex flex-col gap-2 py-4 md:gap-2 md:py-6 mx-6">
                   {/* Main content */}
                   <Routes>
+                    {/* PUBLIC */}
                     <Route path="/" element={<Home />} />
-                    <Route path="/festivals" element={<FestivalsIndex />} />
 
-                    <Route path="/" element={<ProtectedRoute />}>
-                      <Route
-                        path="/festivals/:id"
-                        element={<FestivalsShow />}
-                      />
-                      <Route
-                        path="/festivals/:id/edit"
-                        element={<FestivalsEdit />}
-                      />
-                      <Route
-                        path="/festivals/create"
-                        element={<FestivalsCreate />}
-                      />
+                    <Route path="/doctors" element={<DoctorsIndex />} />
+                    <Route path="/doctors/:id" element={<DoctorsShow />} />
+
+                    <Route path="/patients" element={<PatientsIndex />} />
+                    <Route path="/patients/:id" element={<PatientsShow />} />
+
+                    {/* PROTECTED */}
+                    <Route element={<ProtectedRoute />}>
+                      <Route path="/doctors/create" element={<DoctorsCreate />} />
+                      <Route path="/doctors/:id/edit" element={<DoctorsEdit />} />
+
+                      <Route path="/patients/create" element={<PatientsCreate />} />
+                      <Route path="/patients/:id/edit" element={<PatientsEdit />} />
                     </Route>
 
-                    <Route path="/forms" element={<FormExamples />} />
-                    <Route
-                        path="/doctors/"
-                        element={<DoctorsIndex />}
-                      />
-                    <Route
-                        path="/doctors/:id"
-                        element={<DoctorsShow />}
-                      />
-                      
                   </Routes>
                 </div>
               </div>

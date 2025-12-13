@@ -8,20 +8,20 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function Edit() {
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    city: "",
-    start_date: "",
-    end_date: "",
+        first_name: "",
+        last_name: "",
+        specialisation: "",
+        email: "",
+        phone: ""
   });
 
   const { token } = useAuth();
 
   useEffect(() => {
-    const fetchFestival = async () => {
+    const fetchDoctor = async () => {
       const options = {
         method: "GET",
-        url: `/festivals/${id}`,
+        url: `/doctors/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,20 +30,20 @@ export default function Edit() {
       try {
         let response = await axios.request(options);
         console.log(response.data);
-        let festival = response.data;
+        let doctor = response.data;
         setForm({
-            title: festival.title,
-            description: festival.description,
-            city: festival.city,
-            start_date: festival.start_date,
-            end_date: festival.end_date,
+            first_name: doctor.first_name,
+            last_name: doctor.last_name,
+            specialisation: doctor.specialisation,
+            email: doctor.email,
+            phone: doctor.phone,
         });
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchFestival();
+    fetchDoctor();
   }, []);
 
   const navigate = useNavigate();
@@ -56,12 +56,12 @@ export default function Edit() {
     });
   };
 
-  const updateFestival = async () => {
+  const updateDoctor = async () => {
     
 
     const options = {
       method: "PATCH",
-      url: `/festivals/${id}`,
+      url: `/doctors/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -71,59 +71,59 @@ export default function Edit() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      navigate("/festivals");
+      navigate("/doctors");
     } catch (err) {
-      console.log(err);
-    }
+      console.log(err.response?.data);
+      set}
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
-    updateFestival();
+    updateDoctor();
   };
 
   return (
     <>
-      <h1>Update Festival</h1>
+      <h1>Update Doctor</h1>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
-          placeholder="Title"
-          name="title"
-          value={form.title}
+          placeholder="First Name"
+          name="first_name"
+          value={form.first_name}
           onChange={handleChange}
         />
         <Input
           className="mt-2"
           type="text"
-          placeholder="Description"
-          name="description"
-          value={form.description}
+          placeholder="Last Name"
+          name="last_name"
+          value={form.last_name}
           onChange={handleChange}
         />
         <Input
           className="mt-2"
           type="text"
-          placeholder="City"
-          name="city"
-          value={form.city}
+          placeholder="Specialisation"
+          name="specialisation"
+          value={form.specialisation}
           onChange={handleChange}
         />
         <Input
           className="mt-2"
           type="text"
-          placeholder="Start Date"
-          name="start_date"
-          value={form.start_date}
+          placeholder="email"
+          name="email"
+          value={form.email}
           onChange={handleChange}
         />
         <Input
           className="mt-2"
           type="text"
-          placeholder="End Date"
-          name="end_date"
-          value={form.end_date}
+          placeholder="Phone Number"
+          name="phone"
+          value={form.phone}
           onChange={handleChange}
         />
         <Button className="mt-4 cursor-pointer" variant="outline" type="submit">

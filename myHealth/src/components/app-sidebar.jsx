@@ -40,24 +40,14 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Festivals",
-      url: "/festivals",
+      title: "Doctors",
+      url: "/doctors",
       icon: IconConfetti,
     },
     {
-      title: "Stages",
-      url: "#",
+      title: "Patients",
+      url: "/patients",
       icon: IconTheater,
-    },
-    {
-      title: "Performers",
-      url: "#",
-      icon: IconMicrophone2,
-    },
-    {
-      title: "Shows",
-      url: "#",
-      icon: IconMusic,
     },
   ],
   examples: [

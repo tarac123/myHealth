@@ -28,41 +28,41 @@ import { toast } from "sonner";
 // } from "@/components/ui/card";
 
 export default function Index() {
-  const [festivals, setFestivals] = useState([]);
+  const [patients, setPatients] = useState([]);
 
   const navigate = useNavigate();
   const { token } = useAuth();
 
   useEffect(() => {
-    const fetchFestivals = async () => {
+    const fetchPatients = async () => {
       const options = {
         method: "GET",
-        url: "/festivals",
+        url: "/patients",
       };
 
       try {
         let response = await axios.request(options);
         console.log(response.data);
-        setFestivals(response.data);
+        setPatients(response.data);
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchFestivals();
+    fetchPatients();
   }, []);
 
   const onDeleteCallback = (id) => {
-    toast.success("Festival deleted successfully");
-    setFestivals(festivals.filter((festival) => festival.id !== id));
+    toast.success("Patient deleted successfully");
+    setPatients(patients.filter((patient) => patient.id !== id));
   };
 
   return (
     <>
       {token && (
         <Button asChild variant="outline" className="mb-4 mr-auto block">
-          <Link size="sm" to={`/festivals/create`}>
-            Create New Festival
+          <Link size="sm" to={`/patients/create`}>
+            Create New Patient
           </Link>
         </Button>
       )}
@@ -71,20 +71,21 @@ export default function Index() {
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>City</TableHead>
-            <TableHead>Start Date</TableHead>
-            <TableHead>End Date</TableHead>
+            <TableHead>First Name</TableHead>
+            <TableHead>Last Name</TableHead>
+            <TableHead>Specialisation</TableHead>
+            <TableHead>Email</TableHead>
             { token && <TableHead></TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {festivals.map((festival) => (
-            <TableRow key={festival.id}>
-              <TableCell>{festival.title}</TableCell>
-              <TableCell>{festival.city}</TableCell>
-              <TableCell>{festival.start_date}</TableCell>
-              <TableCell>{festival.end_date}</TableCell>
+          {patients.map((patient) => (
+            <TableRow key={patient.id}>
+              <TableCell>{patient.first_name}</TableCell>
+              <TableCell>{patient.last_name}</TableCell>
+              <TableCell>{patient.specialisation}</TableCell>
+              <TableCell>{patient.email}</TableCell>
+              <TableCell>{patient.phone}</TableCell>
 
               { token && <TableCell>
                 <div className="flex gap-2">
@@ -92,7 +93,7 @@ export default function Index() {
                     className="cursor-pointer hover:border-blue-500"
                     variant="outline"
                     size="icon"
-                    onClick={() => navigate(`/festivals/${festival.id}`)}
+                    onClick={() => navigate(`/patients/${patient.id}`)}
                   >
                     <Eye />
                   </Button>
@@ -100,14 +101,14 @@ export default function Index() {
                     className="cursor-pointer hover:border-blue-500"
                     variant="outline"
                     size="icon"
-                    onClick={() => navigate(`/festivals/${festival.id}/edit`)}
+                    onClick={() => navigate(`/patients/${patient.id}/edit`)}
                   >
                     <Pencil />
                   </Button>
                   <DeleteBtn
                     onDeleteCallback={onDeleteCallback}
-                    resource="festivals"
-                    id={festival.id}
+                    resource="patients"
+                    id={patient.id}
                   />
                 </div>
               </TableCell>}

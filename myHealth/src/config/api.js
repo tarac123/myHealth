@@ -1,5 +1,18 @@
 import axios from "axios";
 
-export default axios.create({
-    baseURL: 'https://festivals-api.vercel.app'
+const api = axios.create({
+  baseURL: "https://ca2-med-api.vercel.app",
 });
+
+// Attach token to every request (if it exists)
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token"); 
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  }
+);
+
+export default api;

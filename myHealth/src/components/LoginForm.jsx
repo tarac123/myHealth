@@ -46,7 +46,7 @@ export default function LoginForm() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder= "name@example.com"
                 required
                 onChange={handleForm}
               />
