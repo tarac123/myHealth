@@ -71,10 +71,14 @@ export default function Edit() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      navigate("/doctors");
+        navigate(`/doctors/${id}`, {
+          state: { message: "Doctor updated successfully" }
+        });
     } catch (err) {
-      console.log(err.response?.data);
-      set}
+  console.log("STATUS:", err?.response?.status);
+  console.log("DATA:", err?.response?.data);
+}
+
   };
 
   const handleSubmit = (e) => {

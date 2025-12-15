@@ -37,10 +37,9 @@ export default function Create() {
         try {
             let response = await axios.request(options);
             console.log(response.data);
-            navigate('/doctors', { state: { 
-                type: 'success',
-                message: `Doctor "${response.data.title}" created successfully` 
-            }});
+            navigate("/doctors", {
+            state: { message: "Doctor created successfully" }
+            });
         } 
 
         catch (err) {

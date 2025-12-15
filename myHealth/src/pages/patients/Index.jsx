@@ -73,8 +73,9 @@ export default function Index() {
           <TableRow>
             <TableHead>First Name</TableHead>
             <TableHead>Last Name</TableHead>
-            <TableHead>Specialisation</TableHead>
+            <TableHead>Date of Birth</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Phone</TableHead>
             { token && <TableHead></TableHead>}
           </TableRow>
         </TableHeader>
@@ -83,7 +84,7 @@ export default function Index() {
             <TableRow key={patient.id}>
               <TableCell>{patient.first_name}</TableCell>
               <TableCell>{patient.last_name}</TableCell>
-              <TableCell>{patient.specialisation}</TableCell>
+              <TableCell>{patient.date_of_birth}</TableCell>
               <TableCell>{patient.email}</TableCell>
               <TableCell>{patient.phone}</TableCell>
 
