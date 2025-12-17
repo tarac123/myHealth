@@ -27,10 +27,10 @@ export default function Show() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // prevents duplicate alerts in dev (StrictMode)
   const shownRef = useRef(false);
 
-  // show message (e.g. "updated successfully") when returning from Edit page
+
+  // Show success message after edit
   useEffect(() => {
     const msg = location.state?.message;
     if (msg && !shownRef.current) {
@@ -38,50 +38,42 @@ export default function Show() {
       alert(msg);
       navigate(`/doctors/${id}`, { replace: true, state: null });
     }
-  }, [location.state]);
+  }, [location.state, id, navigate]);
 
-  // after delete succeeds, go back to index with a message
-  const onDeleteSuccess = () =>
-    navigate("/doctors", {
-      state: { type: "success", message: "Doctor deleted successfully" },
-    });
-
-  // load doctor + patients (via appointments)
+  // Load doctor + patients
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
-        // 1) doctor details
+        // doctor
         const docRes = await api.get(`/doctors/${id}`);
         setDoctor(docRes.data);
 
-        // 2) appointments for this doctor -> patient ids
+        // patients via appointments
         const apptRes = await api.get(`/appointments?doctor_id=${id}`);
-        const patientIds = [...new Set(apptRes.data.map((a) => a.patient_id))];
+        const patientIds = [...new Set(apptRes.data.map(a => a.patient_id))];
 
-        // 3) if no linked patients, stop
-        if (!patientIds.length) {
+        if (patientIds.length) {
+          const patientsRes = await api.get("/patients");
+          setPatients(
+            patientsRes.data.filter(p => patientIds.includes(p.id))
+          );
+        } else {
           setPatients([]);
-          setLoading(false);
-          return;
         }
-
-        // 4) fetch patients and filter by ids
-        const patientsRes = await api.get("/patients");
-        setPatients(patientsRes.data.filter((p) => patientIds.includes(p.id)));
 
         setLoading(false);
       } catch (err) {
         console.log(err);
-        setLoading(false);
+        navigate("/", { replace: true });
       }
     };
 
     load();
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) return <div>Loading...</div>;
-  if (!doctor) return <div>Doctor not found.</div>;
+  if (!doctor) return null;
 
   return (
     <div className="max-w-5xl">
@@ -109,22 +101,24 @@ export default function Show() {
             <span className="text-sm">{doctor.phone}</span>
           </div>
 
-          {token && (
-            <div className="flex gap-2 pt-2">
-              <Button
-                variant="outline"
-                onClick={() => navigate(`/doctors/${id}/edit`)}
-              >
-                Edit
-              </Button>
+          <div className="flex gap-2 pt-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate(`/doctors/${id}/edit`)}
+            >
+              Edit
+            </Button>
 
-              <DeleteBtn
-                resource="doctors"
-                id={id}
-                onDeleteCallback={onDeleteSuccess}
-              />
-            </div>
-          )}
+            <DeleteBtn
+              resource="doctors"
+              id={id}
+              onDeleteCallback={() =>
+                navigate("/doctors", {
+                  state: { message: "Doctor deleted successfully" },
+                })
+              }
+            />
+          </div>
         </CardContent>
       </Card>
 

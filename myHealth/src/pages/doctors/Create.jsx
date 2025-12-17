@@ -41,10 +41,8 @@ export default function Create() {
             state: { message: "Doctor created successfully" }
             });
         } 
-
         catch (err) {
 }
-
     };
 
     const handleSubmit = (e) => {

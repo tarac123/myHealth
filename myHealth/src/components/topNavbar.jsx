@@ -34,16 +34,15 @@ export default function TopNavbar() {
           <span className="text-xl font-semibold">myHealthClinic</span>
         </Link>
 
-        {/* Middle: nav links */}
+
         <nav className="hidden md:flex items-center gap-10">
           <NavItem to="/">Home</NavItem>
           <NavItem to="/appointments">Appointments</NavItem>
           <NavItem to="/doctors">Doctors</NavItem>
         <NavItem to="/patients">Patients</NavItem>
-          <NavItem to="/prescriptions">Prescriptions</NavItem>
         </nav>
 
-        {/* Right: login pill */}
+        {/* Right: login button */}
         <div className="flex items-center gap-3">
           {token ? (
             <Button

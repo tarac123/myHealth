@@ -10,7 +10,6 @@ export default function Edit() {
   const [form, setForm] = useState({
         first_name: "",
         last_name: "",
-        specialisation: "",
         email: "",
         phone: ""
   });
@@ -34,7 +33,6 @@ export default function Edit() {
         setForm({
             first_name: patient.first_name,
             last_name: patient.last_name,
-            specialisation: patient.specialisation,
             email: patient.email,
             phone: patient.phone,
         });
@@ -55,6 +53,8 @@ export default function Edit() {
       [e.target.name]: e.target.value,
     });
   };
+
+  
 
   const updatePatient = async () => {
     
@@ -102,14 +102,7 @@ export default function Edit() {
           value={form.last_name}
           onChange={handleChange}
         />
-        <Input
-          className="mt-2"
-          type="text"
-          placeholder="Specialisation"
-          name="specialisation"
-          value={form.specialisation}
-          onChange={handleChange}
-        />
+
         <Input
           className="mt-2"
           type="text"

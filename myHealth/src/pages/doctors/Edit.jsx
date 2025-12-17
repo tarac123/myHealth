@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 
+
 export default function Edit() {
   const [form, setForm] = useState({
         first_name: "",

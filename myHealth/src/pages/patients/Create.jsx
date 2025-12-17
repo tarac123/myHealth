@@ -9,7 +9,7 @@ export default function Create() {
     const [form, setForm] = useState({
         first_name: "",
         last_name: "",
-        specialisation: "",
+        date_of_birth: "",
         email: "",
         phone: ""
     });
@@ -22,6 +22,7 @@ export default function Create() {
             [e.target.name] : e.target.value
         });
     };
+
 
     const createPatient = async () => {
 
@@ -75,10 +76,10 @@ export default function Create() {
             />
             <Input 
                 className="mt-2"
-                type="text" 
-                placeholder="Specialisation" 
-                name="specialisation" 
-                value={form.specialisation} 
+                type="date" 
+                placeholder="Date of Birth" 
+                name="date_of_birth" 
+                value={form.date_of_birth} 
                 onChange={handleChange} 
             />
             <Input 

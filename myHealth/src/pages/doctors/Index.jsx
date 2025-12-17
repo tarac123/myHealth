@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 
+
 export default function Index() {
   const [doctors, setDoctors] = useState([]);
   const { token } = useAuth();

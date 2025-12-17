@@ -1,74 +1,81 @@
 import { useEffect, useState } from "react";
-import axios from "@/config/api";
+import api from "@/config/api";
 import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import DeleteBtn from "@/components/DeleteBtn";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { formatUnixDate } from "@/utils/formatUnixDate";
 
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toast } from "sonner";
-
-// import {
-//   Card,
-//   CardAction,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
 
 export default function Index() {
   const [patients, setPatients] = useState([]);
-
   const navigate = useNavigate();
   const { token } = useAuth();
 
+  // Only fetch patients when logged in
   useEffect(() => {
-    const fetchPatients = async () => {
-      const options = {
-        method: "GET",
-        url: "/patients",
-      };
+    if (!token) {
+      setPatients([]);
+      return;
+    }
 
+    const fetchPatients = async () => {
       try {
-        let response = await axios.request(options);
-        console.log(response.data);
-        setPatients(response.data);
+        const res = await api.get("/patients");
+
+        // sort alphabetically by last name
+        const sorted = [...res.data].sort((a, b) =>
+          (a.last_name || "").localeCompare(b.last_name || "", undefined, {
+            sensitivity: "base",
+          })
+        );
+
+        setPatients(sorted);
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchPatients();
-  }, []);
+  }, [token]);
 
   const onDeleteCallback = (id) => {
     toast.success("Patient deleted successfully");
-    setPatients(patients.filter((patient) => patient.id !== id));
+    setPatients((prev) => prev.filter((p) => p.id !== id));
   };
+
+
+  // If not logged in, don't show the list at all
+  if (!token) {
+    return <div>Please log in to view patients.</div>;
+  }
 
   return (
     <>
-      {token && (
-        <Button asChild variant="outline" className="mb-4 mr-auto block">
-          <Link size="sm" to={`/patients/create`}>
-            Create New Patient
-          </Link>
-        </Button>
-      )}
+
+          <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-semibold">
+          <span className="text-blue-600">Patients</span>
+        </h1>
+
+        {token && (
+          <Button asChild className="rounded-full px-6">
+            <Link to="/patients/create">Create Patient</Link>
+          </Button>
+        )}
+      </div>
 
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>First Name</TableHead>
@@ -76,45 +83,56 @@ export default function Index() {
             <TableHead>Date of Birth</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
-            { token && <TableHead></TableHead>}
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {patients.map((patient) => (
             <TableRow key={patient.id}>
               <TableCell>{patient.first_name}</TableCell>
               <TableCell>{patient.last_name}</TableCell>
-              <TableCell>{patient.date_of_birth}</TableCell>
+              <TableCell>{formatUnixDate(patient.date_of_birth)}</TableCell>
+
+
               <TableCell>{patient.email}</TableCell>
               <TableCell>{patient.phone}</TableCell>
 
-              { token && <TableCell>
+              <TableCell>
                 <div className="flex gap-2">
                   <Button
-                    className="cursor-pointer hover:border-blue-500"
                     variant="outline"
                     size="icon"
                     onClick={() => navigate(`/patients/${patient.id}`)}
                   >
                     <Eye />
                   </Button>
+
                   <Button
-                    className="cursor-pointer hover:border-blue-500"
                     variant="outline"
                     size="icon"
                     onClick={() => navigate(`/patients/${patient.id}/edit`)}
                   >
                     <Pencil />
                   </Button>
+
                   <DeleteBtn
                     onDeleteCallback={onDeleteCallback}
                     resource="patients"
                     id={patient.id}
                   />
                 </div>
-              </TableCell>}
+              </TableCell>
             </TableRow>
           ))}
+
+          {!patients.length && (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center text-sm text-slate-500">
+                No patients found.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </>
