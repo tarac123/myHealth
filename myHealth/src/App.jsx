@@ -21,10 +21,10 @@ import DiagnosesEdit from "@/pages/diagnoses/Edit";
 import PrescriptionsCreate from "@/pages/prescriptions/Create";
 import PrescriptionsEdit from "@/pages/prescriptions/Edit";
 
+import AppointmentsIndex from "@/pages/appointments/Index";
+import AppointmentsEdit from "@/pages/appointments/Edit";
+import AppointmentsCreate from "@/pages/appointments/Create";
 
-// add these when you make them:
-// import AppointmentsIndex from "@/pages/appointments/Index";
-// import PrescriptionsIndex from "@/pages/prescriptions/Index";
 
 export default function App() {
   return (
@@ -44,8 +44,6 @@ export default function App() {
               <Route path="/patients" element={<PatientsIndex />} />
               <Route path="/patients/:id" element={<PatientsShow />} />
 
-              {/* <Route path="/appointments" element={<AppointmentsIndex />} />
-              <Route path="/prescriptions" element={<PrescriptionsIndex />} /> */}
 
               {/* protected */}
               <Route element={<ProtectedRoute />}>
@@ -57,6 +55,9 @@ export default function App() {
                 <Route path="/diagnoses/:id/edit" element={<DiagnosesEdit />} />
                 <Route path="/patients/:patientId/prescriptions/create" element={<PrescriptionsCreate />}/>
                 <Route path="/prescriptions/:id/edit" element={<PrescriptionsEdit />} />
+                <Route path="/appointments" element={<AppointmentsIndex />} />
+                <Route path="/appointments/:id/edit" element={<AppointmentsEdit />} />
+                <Route path="/appointments/create" element={<AppointmentsCreate />} />
               </Route>
 
                 <Route path="/patients/create" element={<PatientsCreate />} />
