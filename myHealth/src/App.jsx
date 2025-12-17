@@ -1,6 +1,6 @@
 import { AuthProvider } from "./hooks/useAuth";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import TopNavbar from "@/components/TopNavbar";
+import topNavBar from "@/components/topNavBar";
 
 import Home from "@/pages/Home";
 import ProtectedRoute from "@/pages/ProtectedRoute";
@@ -31,7 +31,7 @@ export default function App() {
     <Router>
       <AuthProvider>
         <div className="min-h-screen bg-white">
-          <TopNavbar />
+          <topNavBar />
 
           <main className="mx-auto max-w-6xl px-6 py-8">
             <Routes>
