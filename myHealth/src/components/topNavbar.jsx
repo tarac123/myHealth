@@ -19,7 +19,7 @@ function NavItem({ to, children }) {
   );
 }
 
-export default function topNavBar() {
+export default function TopNavBar() {
   const { token, onLogout } = useAuth();
   const navigate = useNavigate();
 
