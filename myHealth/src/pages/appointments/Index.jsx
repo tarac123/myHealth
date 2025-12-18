@@ -28,7 +28,6 @@ useEffect(() => {
       const doctorsRes = await api.get("/doctors");
       const patientsRes = await api.get("/patients");
 
-      // Debug (temporary)
 
       // Save to state
       setAppointments(appointmentsRes.data);
@@ -38,7 +37,7 @@ useEffect(() => {
       console.log(err);
 
     } finally {
-      // Always stop loading (even if error)
+      // stop loading 
       setLoading(false);
     }
   };

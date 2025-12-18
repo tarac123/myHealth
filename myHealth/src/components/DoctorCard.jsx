@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 
 export default function DoctorCard({ doctor }) {
-  // simple avatar: use a placeholder that varies by id
+  //  use a placeholder that varies by id
   const img = `https://i.pravatar.cc/200?img=${(doctor.id % 70) + 1}`;
 
   return (

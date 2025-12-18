@@ -55,7 +55,7 @@ export default function Index() {
   };
 
 
-  // If not logged in, don't show the list at all
+  // If not logged in don't show the list at all
   if (!token) {
     return <div>Please log in to view patients.</div>;
   }
